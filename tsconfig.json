@@ -4,7 +4,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"$board/*": ["src/domains/board/*"],
-			"team/*": ["src/domains/team/*"]
+			"team/*": ["src/domains/team/*"],
+			"authentication/*": ["src/domains/authentication/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

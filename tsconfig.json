@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"$board/*": ["src/domains/board/*"]
+			"$board/*": ["src/domains/board/*"],
+			"team/*": ["src/domains/team/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

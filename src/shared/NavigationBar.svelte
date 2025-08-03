@@ -51,6 +51,12 @@
         height: 64px;
         padding: 0 1rem;
     }
+    .brand-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        user-select: none;
+    }
     .logo {
         height: 48px; /* 내비 높이보다 살짝 작게 */
         cursor: pointer;
@@ -85,6 +91,7 @@
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/board">게시판</a>
+            <a href="/team">Team</a>
             {#if $isLoggedIn}
                 <button on:click={() => handleAuthClick(true)}>로그아웃</button>
             {:else}

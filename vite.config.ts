@@ -37,6 +37,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			$board: path.resolve(__dirname, 'src/domains/board'),
+			$team: path.resolve(__dirname, 'src/domains/team'),
 		},
 	},
 });

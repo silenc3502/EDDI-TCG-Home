@@ -34,6 +34,10 @@
             goto('/authentication');
         }
     }
+
+    function handleGameClick() {
+        alert('준비 중입니다.');
+    }
 </script>
 
 <style>
@@ -58,7 +62,7 @@
         user-select: none;
     }
     .logo {
-        height: 48px; /* 내비 높이보다 살짝 작게 */
+        height: 48px;
         cursor: pointer;
     }
     .nav-links {
@@ -90,6 +94,7 @@
         </div>
         <div class="nav-links">
             <a href="/">Home</a>
+            <a href="/business">사업 소개</a>
             <a href="/board">게시판</a>
             <a href="/team">Team</a>
             {#if $isLoggedIn}
@@ -97,7 +102,7 @@
             {:else}
                 <button on:click={() => handleAuthClick(false)}>로그인</button>
             {/if}
-            <a href="/game">Game Start</a>
+            <button on:click={handleGameClick}>Game Start</button>
         </div>
     </nav>
 </header>

@@ -40,6 +40,7 @@ export default defineConfig({
 			$team: path.resolve(__dirname, 'src/domains/team'),
 			$authentication: path.resolve(__dirname, 'src/domains/authentication'),
 			$home: path.resolve(__dirname, 'src/domains/home'),
+			$business: path.resolve(__dirname, 'src/domains/business'),
 		},
 	},
 });

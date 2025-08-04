@@ -8,15 +8,6 @@
             img: logoUrl,
             question: '뭐하고 놀아요?',
             answer: '주주들과 한잔하거나 PS5로 보스몹 잡아요. 자전거탄 후 평냉 흡입도 좋아요',
-            link: 'https://www.monolith.co.kr/index.php/em_portfolios/김종석-product-owner'
-        },
-        {
-            name: '어둠의 개발자(흑염룡)',
-            role: 'CTO',
-            img: logoUrl,
-            question: '뭐하고 놀아요?',
-            answer: '스타워즈 OST 틀어놓고 과자먹으면서 두꺼운 책 읽어요',
-            link: 'https://www.monolith.co.kr/index.php/em_portfolios/김나영-cso-co-founder'
         },
         {
             name: '김은혜',
@@ -24,7 +15,6 @@
             img: logoUrl,
             question: '뭐하고 놀아요?',
             answer: '스타워즈 OST 틀어놓고 과자먹으면서 두꺼운 책 읽어요',
-            link: 'https://www.monolith.co.kr/index.php/em_portfolios/김나영-cso-co-founder'
         },
         {
             name: '이재림',
@@ -32,7 +22,6 @@
             img: logoUrl,
             question: '뭐하고 놀아요?',
             answer: '스타워즈 OST 틀어놓고 과자먹으면서 두꺼운 책 읽어요',
-            link: 'https://www.monolith.co.kr/index.php/em_portfolios/김나영-cso-co-founder'
         }
     ];
 </script>

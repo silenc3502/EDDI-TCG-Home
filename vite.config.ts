@@ -39,6 +39,7 @@ export default defineConfig({
 			$board: path.resolve(__dirname, 'src/domains/board'),
 			$team: path.resolve(__dirname, 'src/domains/team'),
 			$authentication: path.resolve(__dirname, 'src/domains/authentication'),
+			$home: path.resolve(__dirname, 'src/domains/home'),
 		},
 	},
 });

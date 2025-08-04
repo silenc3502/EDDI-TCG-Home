@@ -5,7 +5,8 @@
 		"paths": {
 			"$board/*": ["src/domains/board/*"],
 			"team/*": ["src/domains/team/*"],
-			"authentication/*": ["src/domains/authentication/*"]
+			"authentication/*": ["src/domains/authentication/*"],
+			"$home/*": ["src/domains/home/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

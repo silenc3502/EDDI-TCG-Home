@@ -26,6 +26,9 @@
     });
 
     function handleAuthClick(loggedIn: boolean) {
+        alert('준비 중입니다.');
+        return;
+        
         if (loggedIn) {
             localStorage.removeItem('userToken');
             isLoggedIn.set(false);

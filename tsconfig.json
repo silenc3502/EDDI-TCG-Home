@@ -6,7 +6,8 @@
 			"$board/*": ["src/domains/board/*"],
 			"team/*": ["src/domains/team/*"],
 			"authentication/*": ["src/domains/authentication/*"],
-			"$home/*": ["src/domains/home/*"]
+			"$home/*": ["src/domains/home/*"],
+			"$business/*": ["src/domains/business/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

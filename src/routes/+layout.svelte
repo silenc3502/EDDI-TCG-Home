@@ -5,6 +5,6 @@
 
 <NavigationBar />
 
-<main class="p-4">
+<main class="p-0">
 	<slot />
 </main>

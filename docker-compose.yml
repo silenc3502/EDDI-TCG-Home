@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  sveltekit:
+    image: ghcr.io/${GITHUB_ACTOR}/eddi-games-home-sveltekit:latest
+    container_name: eddi-games-home-sveltekit
+    command: "node build"
+    ports:
+      - "3000:3000"
+    environment:
+      # 환경변수는 필요할 때 채우세요
+      - SOME_VAR=
+    restart: always
+    networks:
+      - app
+
+  nginx:
+    image: nginx:latest
+    container_name: frontend-deploy-nginx
+    restart: unless-stopped
+    volumes:
+      - /home/ec2-user/eddi-games-home/sveltekit/conf:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    networks:
+      - app
+
+networks:
+  app:
+    external: true

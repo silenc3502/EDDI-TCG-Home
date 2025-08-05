@@ -24,14 +24,12 @@ jobs:
 
       - name: Create .env for Continuous Deploy
         run: |
-          ls
           echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
       - name: Build and Push Docker Image
         run: |
           echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx create --name builder --use
-          cd sveltekit
           docker buildx build --platform linux/amd64,linux/arm64 \
             -t ${{ env.DOCKER_IMAGE }} --push .
           docker logout

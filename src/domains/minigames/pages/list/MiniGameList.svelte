@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import logoUrl from '../../../../lib/assets/eddi.webp';
 
     type MiniGame = {
         id: string;
@@ -14,43 +15,8 @@
             id: 'tetris',
             title: '테트리스',
             description: '클래식 블록 쌓기 게임',
-            thumbnail: '/games/tetris/thumb.png',
+            thumbnail: logoUrl,
             route: '/tetris'
-        },
-        {
-            id: '2048',
-            title: '2048',
-            description: '숫자를 합쳐 2048을 만들어보세요!',
-            thumbnail: '/games/2048/thumb.png',
-            route: '/games/2048'
-        },
-        {
-            id: 'memory',
-            title: '기억력 게임',
-            description: '같은 그림을 맞춰보세요',
-            thumbnail: '/games/memory/thumb.png',
-            route: '/games/memory'
-        },
-        {
-            id: 'tetris',
-            title: '테트리스',
-            description: '클래식 블록 쌓기 게임',
-            thumbnail: '/games/tetris/thumb.png',
-            route: '/games/tetris'
-        },
-        {
-            id: '2048',
-            title: '2048',
-            description: '숫자를 합쳐 2048을 만들어보세요!',
-            thumbnail: '/games/2048/thumb.png',
-            route: '/games/2048'
-        },
-        {
-            id: 'memory',
-            title: '기억력 게임',
-            description: '같은 그림을 맞춰보세요',
-            thumbnail: '/games/memory/thumb.png',
-            route: '/games/memory'
         },
     ];
 </script>

@@ -175,6 +175,7 @@
             <a href="/business">사업 소개</a>
             <a href="/board">게시판</a>
             <a href="/team">Team</a>
+            <a href="/minigames">미니 게임</a>
             {#if $isLoggedIn}
                 <button on:click={() => handleAuthClick(true)}>로그아웃</button>
             {:else}
@@ -190,6 +191,7 @@
                 <a href="/business">사업 소개</a>
                 <a href="/board">게시판</a>
                 <a href="/team">Team</a>
+                <a href="/minigames">미니 게임</a>
                 {#if $isLoggedIn}
                     <button on:click={() => handleAuthClick(true)}>로그아웃</button>
                 {:else}

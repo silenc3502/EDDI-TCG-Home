@@ -8,89 +8,45 @@
     let canvas: HTMLCanvasElement;
     let context: CanvasRenderingContext2D;
 
-    // 테트로미노 정의
     const tetrominoes = {
-        I: [
-            [0, 0, 0, 0],
-            [1, 1, 1, 1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-        J: [
-            [1, 0, 0],
-            [1, 1, 1],
-            [0, 0, 0],
-        ],
-        L: [
-            [0, 0, 1],
-            [1, 1, 1],
-            [0, 0, 0],
-        ],
-        O: [
-            [1, 1],
-            [1, 1],
-        ],
-        S: [
-            [0, 1, 1],
-            [1, 1, 0],
-            [0, 0, 0],
-        ],
-        T: [
-            [0, 1, 0],
-            [1, 1, 1],
-            [0, 0, 0],
-        ],
-        Z: [
-            [1, 1, 0],
-            [0, 1, 1],
-            [0, 0, 0],
-        ],
+        I: [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
+        J: [[1,0,0],[1,1,1],[0,0,0]],
+        L: [[0,0,1],[1,1,1],[0,0,0]],
+        O: [[1,1],[1,1]],
+        S: [[0,1,1],[1,1,0],[0,0,0]],
+        T: [[0,1,0],[1,1,1],[0,0,0]],
+        Z: [[1,1,0],[0,1,1],[0,0,0]],
     };
 
-    // 각 테트로미노 색깔 인덱스 (0: 빈칸, 1~7: 색깔)
     const colors = [
-        '#1e293b', // 빈칸 배경 (gray-800)
-        '#f87171', // red-400
-        '#60a5fa', // blue-400
-        '#34d399', // green-400
-        '#fbbf24', // yellow-400
-        '#a78bfa', // purple-400
-        '#f472b6', // pink-400
-        '#f97316', // orange-500
+        '#1e293b', '#f87171', '#60a5fa', '#34d399',
+        '#fbbf24', '#a78bfa', '#f472b6', '#f97316'
     ];
 
-    // 게임판 초기화
     let arena: number[][] = [];
     function createArena() {
         return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
     }
     arena = createArena();
 
-    // 플레이어 상태
     let player = {
         pos: { x: 0, y: 0 },
         matrix: [] as number[][],
         colorIndex: 1,
     };
 
-    // 점수
     let score = 0;
-
-    // 게임 오버 플래그
     let gameOver = false;
 
-    // 랜덤 테트로미노 생성
     function randomPiece(): keyof typeof tetrominoes {
         const keys = Object.keys(tetrominoes) as (keyof typeof tetrominoes)[];
         return keys[(keys.length * Math.random()) | 0];
     }
 
-    // 테트로미노 복사 생성
     function createPiece(type: keyof typeof tetrominoes) {
         return tetrominoes[type].map(row => row.slice());
     }
 
-    // 회전 함수 (시계방향 90도)
     function rotate(matrix: number[][]) {
         const N = matrix.length;
         return Array.from({ length: N }, (_, y) =>
@@ -98,15 +54,12 @@
         );
     }
 
-    // 충돌 체크
     function collide(arena: number[][], player: typeof player) {
         const { matrix, pos } = player;
         for (let y = 0; y < matrix.length; y++) {
             for (let x = 0; x < matrix[y].length; x++) {
-                if (
-                    matrix[y][x] !== 0 &&
-                    (arena[y + pos.y]?.[x + pos.x] ?? 1) !== 0
-                ) {
+                if (matrix[y][x] !== 0 &&
+                    (arena[y + pos.y]?.[x + pos.x] ?? 1) !== 0) {
                     return true;
                 }
             }
@@ -114,7 +67,6 @@
         return false;
     }
 
-    // 플레이어 위치 arena에 병합
     function merge(arena: number[][], player: typeof player) {
         const { matrix, pos, colorIndex } = player;
         matrix.forEach((row, y) => {
@@ -126,7 +78,6 @@
         });
     }
 
-    // 한 줄이 다 채워졌는지 체크 및 삭제
     function arenaSweep() {
         let rowCount = 0;
         for (let y = arena.length - 1; y >= 0; y--) {
@@ -134,29 +85,27 @@
                 arena.splice(y, 1);
                 arena.unshift(new Array(COLS).fill(0));
                 rowCount++;
-                y++; // 다시 체크 위해 y 증가
+                y++;
             }
         }
         if (rowCount > 0) {
             score += rowCount * 10;
+            updateDropSpeed();
         }
     }
 
-    // 플레이어 초기화 + 새로운 조각 생성
     function playerReset() {
         const type = randomPiece();
         player.matrix = createPiece(type);
         player.colorIndex = Object.keys(tetrominoes).indexOf(type) + 1;
         player.pos.y = 0;
         player.pos.x = Math.floor(COLS / 2) - Math.floor(player.matrix[0].length / 2);
-
         if (collide(arena, player)) {
             arena = createArena();
             gameOver = true;
         }
     }
 
-    // 플레이어 아래로 한 칸 이동 (소프트 드롭)
     function playerDrop() {
         player.pos.y++;
         if (collide(arena, player)) {
@@ -167,7 +116,6 @@
         }
     }
 
-    // 플레이어 좌우 이동
     function playerMove(dir: number) {
         player.pos.x += dir;
         if (collide(arena, player)) {
@@ -175,25 +123,21 @@
         }
     }
 
-    // 플레이어 회전
     function playerRotate() {
         const posX = player.pos.x;
         let offset = 1;
         player.matrix = rotate(player.matrix);
-
         while (collide(arena, player)) {
             player.pos.x += offset;
             offset = -(offset + (offset > 0 ? 1 : -1));
-
             if (offset > player.matrix[0].length) {
-                player.matrix = rotate(rotate(rotate(player.matrix))); // 원상복구
+                player.matrix = rotate(rotate(rotate(player.matrix)));
                 player.pos.x = posX;
                 break;
             }
         }
     }
 
-    // 하드 드롭
     function hardDrop() {
         while (!collide(arena, player)) {
             player.pos.y++;
@@ -205,7 +149,6 @@
         dropCounter = 0;
     }
 
-    // 그리기 함수
     function drawMatrix(matrix: number[][], offset: { x: number; y: number }) {
         matrix.forEach((row, y) => {
             row.forEach((value, x) => {
@@ -214,16 +157,14 @@
                     context.fillRect(
                         (x + offset.x) * BLOCK_SIZE,
                         (y + offset.y) * BLOCK_SIZE,
-                        BLOCK_SIZE,
-                        BLOCK_SIZE
+                        BLOCK_SIZE, BLOCK_SIZE
                     );
                     context.strokeStyle = '#1e293b';
                     context.lineWidth = 2;
                     context.strokeRect(
                         (x + offset.x) * BLOCK_SIZE,
                         (y + offset.y) * BLOCK_SIZE,
-                        BLOCK_SIZE,
-                        BLOCK_SIZE
+                        BLOCK_SIZE, BLOCK_SIZE
                     );
                 }
             });
@@ -231,15 +172,12 @@
     }
 
     function draw() {
-        // 배경 클리어
         context.fillStyle = colors[0];
         context.fillRect(0, 0, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
-
         drawMatrix(arena, { x: 0, y: 0 });
         drawMatrix(player.matrix, player.pos);
     }
 
-    // 게임 오버 화면 표시
     function drawGameOver() {
         context.fillStyle = 'rgba(0,0,0,0.7)';
         context.fillRect(0, 0, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
@@ -251,13 +189,22 @@
         context.fillText('Refresh to Restart', (COLS * BLOCK_SIZE) / 2, (ROWS * BLOCK_SIZE) / 2 + 40);
     }
 
-    // 드롭 타이밍 및 애니메이션
     let dropCounter = 0;
     const dropIntervalNormal = 1000;
     const dropIntervalFast = 50;
     let dropInterval = dropIntervalNormal;
     let lastTime = 0;
     let isSoftDropping = false;
+
+    function getSpeedByScore(score: number) {
+        return Math.max(300, dropIntervalNormal - Math.floor(score / 100) * 50);
+    }
+
+    function updateDropSpeed() {
+        if (!isSoftDropping) {
+            dropInterval = getSpeedByScore(score);
+        }
+    }
 
     function update(time = 0) {
         const deltaTime = time - lastTime;
@@ -278,39 +225,31 @@
         }
     }
 
-    // 키보드 이벤트 핸들러
     function handleKeyDown(e: KeyboardEvent) {
         if (gameOver) return;
 
         if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' ', 'Enter'].includes(e.key)) {
-            e.preventDefault(); // 기본 스크롤 등 방지
+            e.preventDefault();
         }
 
         switch (e.key) {
-            case 'ArrowLeft':
-                playerMove(-1);
-                break;
-            case 'ArrowRight':
-                playerMove(1);
-                break;
+            case 'ArrowLeft': playerMove(-1); break;
+            case 'ArrowRight': playerMove(1); break;
             case 'ArrowDown':
                 isSoftDropping = true;
                 dropInterval = dropIntervalFast;
+                dropCounter = 0;
                 break;
-            case 'ArrowUp':
-                playerRotate();
-                break;
+            case 'ArrowUp': playerRotate(); break;
             case ' ':
-            case 'Enter':
-                hardDrop();
-                break;
+            case 'Enter': hardDrop(); break;
         }
     }
 
     function handleKeyUp(e: KeyboardEvent) {
         if (e.key === 'ArrowDown') {
             isSoftDropping = false;
-            dropInterval = dropIntervalNormal;
+            updateDropSpeed();
         }
     }
 

@@ -3,7 +3,6 @@
 
     const COLS = 10;
     const ROWS = 20;
-    const BLOCK_SIZE = 30;
 
     let canvas: HTMLCanvasElement;
     let context: CanvasRenderingContext2D;
@@ -19,63 +18,52 @@
     };
 
     const colors = [
-        '#1e293b', '#f87171', '#60a5fa', '#34d399',
-        '#fbbf24', '#a78bfa', '#f472b6', '#f97316'
+        '#1e293b','#f87171','#60a5fa','#34d399',
+        '#fbbf24','#a78bfa','#f472b6','#f97316'
     ];
 
-    let arena: number[][] = [];
-    function createArena() {
-        return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-    }
-    arena = createArena();
-
-    let player = {
-        pos: { x: 0, y: 0 },
-        matrix: [] as number[][],
-        colorIndex: 1,
-    };
+    let arena: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    let player = { pos: { x:0, y:0 }, matrix: [] as number[][], colorIndex: 1 };
 
     let score = 0;
     let gameOver = false;
+    let BLOCK_SIZE = 30;
+    let dropCounter = 0;
+    const dropIntervalNormal = 1000;
+    const dropIntervalFast = 50;
+    let dropInterval = dropIntervalNormal;
+    let lastTime = 0;
+    let isSoftDropping = false;
 
-    function randomPiece(): keyof typeof tetrominoes {
-        const keys = Object.keys(tetrominoes) as (keyof typeof tetrominoes)[];
+    function randomPiece() {
+        const keys = Object.keys(tetrominoes);
         return keys[(keys.length * Math.random()) | 0];
     }
 
-    function createPiece(type: keyof typeof tetrominoes) {
-        return tetrominoes[type].map(row => row.slice());
+    function createPiece(type) {
+        return tetrominoes[type].map(r => r.slice());
     }
 
-    function rotate(matrix: number[][]) {
+    function rotate(matrix) {
         const N = matrix.length;
         return Array.from({ length: N }, (_, y) =>
             Array.from({ length: N }, (_, x) => matrix[N - 1 - x][y])
         );
     }
 
-    function collide(arena: number[][], player: typeof player) {
+    function collide(arena, player) {
         const { matrix, pos } = player;
-        for (let y = 0; y < matrix.length; y++) {
-            for (let x = 0; x < matrix[y].length; x++) {
-                if (matrix[y][x] !== 0 &&
-                    (arena[y + pos.y]?.[x + pos.x] ?? 1) !== 0) {
+        for (let y = 0; y < matrix.length; y++)
+            for (let x = 0; x < matrix[y].length; x++)
+                if (matrix[y][x] !== 0 && (arena[y + pos.y]?.[x + pos.x] ?? 1) !== 0)
                     return true;
-                }
-            }
-        }
         return false;
     }
 
-    function merge(arena: number[][], player: typeof player) {
-        const { matrix, pos, colorIndex } = player;
-        matrix.forEach((row, y) => {
-            row.forEach((value, x) => {
-                if (value !== 0) {
-                    arena[y + pos.y][x + pos.x] = colorIndex;
-                }
-            });
-        });
+    function merge(arena, player) {
+        player.matrix.forEach((row, y) => row.forEach((v, x) => {
+            if (v !== 0) arena[y + player.pos.y][x + player.pos.x] = player.colorIndex;
+        }));
     }
 
     function arenaSweep() {
@@ -101,7 +89,7 @@
         player.pos.y = 0;
         player.pos.x = Math.floor(COLS / 2) - Math.floor(player.matrix[0].length / 2);
         if (collide(arena, player)) {
-            arena = createArena();
+            arena = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
             gameOver = true;
         }
     }
@@ -116,11 +104,9 @@
         }
     }
 
-    function playerMove(dir: number) {
+    function playerMove(dir) {
         player.pos.x += dir;
-        if (collide(arena, player)) {
-            player.pos.x -= dir;
-        }
+        if (collide(arena, player)) player.pos.x -= dir;
     }
 
     function playerRotate() {
@@ -139,9 +125,7 @@
     }
 
     function hardDrop() {
-        while (!collide(arena, player)) {
-            player.pos.y++;
-        }
+        while (!collide(arena, player)) player.pos.y++;
         player.pos.y--;
         merge(arena, player);
         arenaSweep();
@@ -149,26 +133,16 @@
         dropCounter = 0;
     }
 
-    function drawMatrix(matrix: number[][], offset: { x: number; y: number }) {
-        matrix.forEach((row, y) => {
-            row.forEach((value, x) => {
-                if (value !== 0) {
-                    context.fillStyle = colors[value];
-                    context.fillRect(
-                        (x + offset.x) * BLOCK_SIZE,
-                        (y + offset.y) * BLOCK_SIZE,
-                        BLOCK_SIZE, BLOCK_SIZE
-                    );
-                    context.strokeStyle = '#1e293b';
-                    context.lineWidth = 2;
-                    context.strokeRect(
-                        (x + offset.x) * BLOCK_SIZE,
-                        (y + offset.y) * BLOCK_SIZE,
-                        BLOCK_SIZE, BLOCK_SIZE
-                    );
-                }
-            });
-        });
+    function drawMatrix(matrix, offset) {
+        matrix.forEach((row, y) => row.forEach((value, x) => {
+            if (value !== 0) {
+                context.fillStyle = colors[value];
+                context.fillRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                context.strokeStyle = '#1e293b';
+                context.lineWidth = 2;
+                context.strokeRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            }
+        }));
     }
 
     function draw() {
@@ -189,21 +163,12 @@
         context.fillText('Refresh to Restart', (COLS * BLOCK_SIZE) / 2, (ROWS * BLOCK_SIZE) / 2 + 40);
     }
 
-    let dropCounter = 0;
-    const dropIntervalNormal = 1000;
-    const dropIntervalFast = 50;
-    let dropInterval = dropIntervalNormal;
-    let lastTime = 0;
-    let isSoftDropping = false;
-
-    function getSpeedByScore(score: number) {
+    function getSpeedByScore(score) {
         return Math.max(300, dropIntervalNormal - Math.floor(score / 100) * 50);
     }
 
     function updateDropSpeed() {
-        if (!isSoftDropping) {
-            dropInterval = getSpeedByScore(score);
-        }
+        if (!isSoftDropping) dropInterval = getSpeedByScore(score);
     }
 
     function update(time = 0) {
@@ -217,72 +182,190 @@
         }
 
         draw();
-
-        if (!gameOver) {
-            requestAnimationFrame(update);
-        } else {
-            drawGameOver();
-        }
+        if (!gameOver) requestAnimationFrame(update);
+        else drawGameOver();
     }
 
     function handleKeyDown(e: KeyboardEvent) {
         if (gameOver) return;
-
-        if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' ', 'Enter'].includes(e.key)) {
-            e.preventDefault();
-        }
-
+        if (['ArrowLeft','ArrowRight','ArrowDown','ArrowUp',' ','Enter'].includes(e.key)) e.preventDefault();
         switch (e.key) {
             case 'ArrowLeft': playerMove(-1); break;
             case 'ArrowRight': playerMove(1); break;
-            case 'ArrowDown':
-                isSoftDropping = true;
-                dropInterval = dropIntervalFast;
-                dropCounter = 0;
-                break;
+            case 'ArrowDown': isSoftDropping = true; dropInterval = dropIntervalFast; dropCounter = 0; break;
             case 'ArrowUp': playerRotate(); break;
-            case ' ':
-            case 'Enter': hardDrop(); break;
+            case ' ': case 'Enter': hardDrop(); break;
         }
     }
 
     function handleKeyUp(e: KeyboardEvent) {
-        if (e.key === 'ArrowDown') {
-            isSoftDropping = false;
-            updateDropSpeed();
+        if (e.key === 'ArrowDown') { isSoftDropping = false; updateDropSpeed(); }
+    }
+
+    function resizeCanvas() {
+        const headerHeight = 64; // 상단 네비바
+        const wrapper = document.querySelector('.wrapper') as HTMLElement;
+        const titleHeight = wrapper?.querySelector('h2')?.clientHeight ?? 0;
+        const scoreHeight = wrapper?.querySelector('.score')?.clientHeight ?? 0;
+
+        const mobileControls = document.querySelector('.mobile-controls') as HTMLElement;
+        let mobileControlsHeight = 0;
+        if (mobileControls) {
+            const style = window.getComputedStyle(mobileControls);
+            mobileControlsHeight = style.display !== 'none' ? mobileControls.offsetHeight : 0;
         }
+
+        const padding = 20; // 상하좌우 최소 여백
+        const gapBetweenCanvasAndButtons = 8; // 캔버스와 버튼 사이 여백
+
+        const availableHeight = window.innerHeight
+            - headerHeight
+            - titleHeight
+            - scoreHeight
+            - mobileControlsHeight
+            - padding
+            - gapBetweenCanvasAndButtons;
+
+        const availableWidth = window.innerWidth - padding;
+
+        const blockWidth = Math.floor(availableWidth / COLS);
+        const blockHeight = Math.floor(availableHeight / ROWS);
+
+        BLOCK_SIZE = Math.max(10, Math.min(blockWidth, blockHeight));
+
+        canvas.width = COLS * BLOCK_SIZE;
+        canvas.height = ROWS * BLOCK_SIZE;
+
+        document.documentElement.style.setProperty('--block-size', `${BLOCK_SIZE}px`);
+        draw();
     }
 
     onMount(() => {
         context = canvas.getContext('2d')!;
-        canvas.width = COLS * BLOCK_SIZE;
-        canvas.height = ROWS * BLOCK_SIZE;
-
         playerReset();
+        resizeCanvas();
         update();
 
         window.addEventListener('keydown', handleKeyDown, { passive: false });
         window.addEventListener('keyup', handleKeyUp);
+        window.addEventListener('resize', resizeCanvas);
     });
 
     onDestroy(() => {
         window.removeEventListener('keydown', handleKeyDown);
         window.removeEventListener('keyup', handleKeyUp);
+        window.removeEventListener('resize', resizeCanvas);
     });
 </script>
 
 <style>
+    html, body {
+        margin:0;
+        padding:0;
+        height:100%;
+        background:#f1f5f9;
+        overflow:hidden;
+    }
+
+    .wrapper {
+        display:flex;
+        flex-direction:column;
+        height:100%;
+        align-items:center;
+        justify-content:space-between;
+        box-sizing:border-box;
+    }
+
+    .header {
+        height:64px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    }
+
+    .score {
+        font-weight:bold;
+        font-size:1.2rem;
+        color:#374151;
+        margin-top:4px;
+    }
+
+    .canvas-container {
+        flex:1;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        width:100%;
+        box-sizing:border-box;
+        padding-bottom: 16px; /* ✅ 캔버스와 버튼 사이 여백 추가 */
+    }
+
     canvas {
-        display: block;
-        margin: 0 auto;
-        background: #1e293b;
-        border: 3px solid #334155;
-        border-radius: 10px;
+        display:block;
+        border-radius:8px;
+        background:#e2e8f0;
+    }
+
+    .mobile-controls {
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:10px;
+        margin-bottom:8px;
+        flex-shrink:0;
+        padding-bottom: 8px; /* ✅ 모바일 환경에서 화면 끝과 버튼 사이 간격 */
+    }
+
+    .control-row {
+        display:flex;
+        gap:10px;
+    }
+
+    .mobile-controls button {
+        font-size: calc(0.8 * var(--block-size));
+        padding: calc(0.3 * var(--block-size)) calc(0.5 * var(--block-size));
+        background:#334155;
+        color:white;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        transition: transform 0.1s ease;
+    }
+
+    .mobile-controls button:active {
+        background:#475569;
+        transform: scale(0.95);
+    }
+
+    @media (min-width:768px) {
+        .mobile-controls { display:none; }
     }
 </style>
 
-<h2 class="text-center text-xl font-bold my-4 text-gray-700">🎮 테트리스</h2>
-<div class="text-center mb-4">
-    <span class="text-gray-600 font-semibold">점수: {score}</span>
+<div class="wrapper">
+    <div class="header">
+        <h2>🎮 테트리스</h2>
+        <div class="score">점수: {score}</div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas bind:this={canvas}></canvas>
+    </div>
+
+    <div class="mobile-controls">
+        <div class="control-row">
+            <button on:click={() => playerMove(-1)}>⬅️</button>
+            <button on:click={playerRotate}>🔄</button>
+            <button on:click={() => playerMove(1)}>➡️</button>
+        </div>
+        <div class="control-row">
+            <button
+                    on:touchstart={() => { isSoftDropping=true; dropInterval=dropIntervalFast; dropCounter=0; }}
+                    on:touchend={() => { isSoftDropping=false; updateDropSpeed(); }}
+            >⬇️</button>
+            <button on:click={hardDrop}>⏬</button>
+        </div>
+    </div>
 </div>
-<canvas bind:this={canvas}></canvas>

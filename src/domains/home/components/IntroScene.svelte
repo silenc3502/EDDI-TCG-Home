@@ -48,17 +48,17 @@
 >
     <!-- 좌우 여백 전체에 어둠 + 안개 효과 (이미지 영역 제외한 나머지 전체) -->
     <div
-            class="pointer-events-none fixed top-0 left-0 w-full h-full z-10"
+            class="pointer-events-none absolute top-0 left-0 w-full h-full z-0"
             style="
-            background:
-              linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(30,30,30,0.8) 10%, transparent 20%),
-              linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(30,30,30,0.8) 10%, transparent 20%);
-            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            mix-blend-mode: screen;
-        "
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(30,30,30,0.8) 10%, transparent 20%),
+        linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(30,30,30,0.8) 10%, transparent 20%);
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      mix-blend-mode: screen;
+    "
     ></div>
 
     <!-- 검붉은 오오라 -->

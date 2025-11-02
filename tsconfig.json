@@ -4,10 +4,12 @@
 		"baseUrl": ".",
 		"paths": {
 			"$board/*": ["src/domains/board/*"],
-			"team/*": ["src/domains/team/*"],
-			"authentication/*": ["src/domains/authentication/*"],
+			"$team/*": ["src/domains/team/*"],
+			"$authentication/*": ["src/domains/authentication/*"],
 			"$home/*": ["src/domains/home/*"],
-			"$business/*": ["src/domains/business/*"]
+			"$business/*": ["src/domains/business/*"],
+			"$minigames/*": ["src/domains/minigames/*"],
+			"$tetris/*": ["src/domains/tetris/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

@@ -171,6 +171,7 @@
 
         <!-- PC용 메뉴 -->
         <div class="nav-links">
+            <a href="/experiment">테스트</a>
             <a href="/">Home</a>
             <a href="/business">사업 소개</a>
             <a href="/board">게시판</a>

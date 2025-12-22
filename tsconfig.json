@@ -9,7 +9,8 @@
 			"$home/*": ["src/domains/home/*"],
 			"$business/*": ["src/domains/business/*"],
 			"$minigames/*": ["src/domains/minigames/*"],
-			"$tetris/*": ["src/domains/tetris/*"]
+			"$tetris/*": ["src/domains/tetris/*"],
+			"$experiment/*": ["src/domains/experiment/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

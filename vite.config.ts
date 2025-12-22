@@ -43,6 +43,7 @@ export default defineConfig({
 			$business: path.resolve(__dirname, 'src/domains/business'),
 			$minigames: path.resolve(__dirname, 'src/domains/minigames'),
 			$tetris: path.resolve(__dirname, 'src/domains/tetris'),
+			$experiment: path.resolve(__dirname, 'src/domains/experiment'),
 		},
 	},
 });

@@ -98,6 +98,15 @@
             언데드, 트랜트, 그리고 인간.<br/>
             당신만의 진영으로 전쟁에서 승리하세요.
           </p>
+          <div class="w-full flex justify-center mt-6 z-[3]">
+            <a
+              href="#"
+              on:click|preventDefault={() => alert('준비중입니다.')}
+              class="px-7 py-3 text-[18px] leading-[25.2px] font-medium font-sans text-[#B084F5] border border-[#B084F5] bg-[#3A275A80] uppercase tracking-wide transition-colors duration-200 hover:bg-[#B084F5] hover:text-[#FAF9F6]"
+            >
+              지금 플레이하기
+            </a>
+          </div>
         </div>
     </section>
 

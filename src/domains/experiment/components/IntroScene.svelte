@@ -63,11 +63,9 @@
             ),
 
             /* 보라 톤 */
-            linear-gradient(
-                180deg,
-                rgba(34, 2, 51, 0.15) 0%,
-                rgba(34, 2, 51, 0.3) 100%
-            );
+            linear-gradient(rgba(34.12, 2.09, 51.36, 0.20)),
+            linear-gradient(rgba(0, 0, 0, 0.30));
+
     }
 
     /* 프레임 안 콘텐츠 */

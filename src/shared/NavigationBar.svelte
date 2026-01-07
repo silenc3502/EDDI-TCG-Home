@@ -46,6 +46,10 @@
 
 <style>
     header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
         background-color: #1f2937;
         color: white;
         width: 100%;

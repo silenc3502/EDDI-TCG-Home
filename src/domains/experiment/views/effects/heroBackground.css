@@ -1,0 +1,27 @@
+.hero-effect-layer {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    background:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(30, 30, 30, 0.7) 12%,
+      transparent 25%
+    ),
+    linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(30, 30, 30, 0.7) 12%,
+      transparent 25%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 0.8) 100%
+    ),
+    linear-gradient(rgba(34.12, 2.09, 51.36, 0.20)),
+    linear-gradient(rgba(0, 0, 0, 0.30));
+}

@@ -1,25 +1,43 @@
-<script lang="ts"></script>
+<script lang="ts">
+    import testImage from '$lib/assets/test_intro_image.webp';
+    import IntroContent from './IntroContent.svelte';
+    import '../../layout/baseFrame.css';
+    import '../../overlay/frameOverlay.css';
+    import '../../effects/introBackground.css';
+</script>
 
 <style>
-    .frame {
-    position: relative;
-    width: 100%;
-    height: 50vh;
-    overflow: hidden;
+    .frame-content {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 120px;        /* 프레임 여백 책임 */
     }
 
-    .frame-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 0;
+    .content-left {
+        max-width: 768px;
+        text-align: left;
     }
 </style>
 
-<section class="frame">
+<section class="frame" style="--frame-height: 70vh;">
     <div
-    class="frame-bg"
+        class="frame-bg"
     />
+
+
+    <!-- 프레임 장식 이미지 -->
+    <img
+        class="frame-float-image is-bg-like"
+        src={testImage}
+    />
+
+    <div class="intro-effect-layer" />
+
+    <div class="frame-content content-left">
+        <IntroContent />
+    </div>
 </section>

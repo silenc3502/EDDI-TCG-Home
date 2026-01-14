@@ -1,0 +1,15 @@
+.frame {
+    position: relative;
+    width: 100%;
+    height: var(--frame-height, 100vh);
+    overflow: hidden;
+}
+
+.frame-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}

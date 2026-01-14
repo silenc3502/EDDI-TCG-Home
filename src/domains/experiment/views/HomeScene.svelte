@@ -1,6 +1,8 @@
 <script lang="ts">
     import HeroFrame from './frames/hero/HeroFrame.svelte';
     import IntroFrame from './frames/intro/IntroFrame.svelte';
+
+    const frames = [HeroFrame, IntroFrame];
 </script>
 
 <style>
@@ -14,6 +16,7 @@
 </style>
 
 <div class="scene">
-    <HeroFrame />
-    <IntroFrame />
+    {#each frames as Frame}
+        <Frame />
+    {/each}
 </div>

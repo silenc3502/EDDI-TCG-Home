@@ -1,0 +1,16 @@
+.intro-effect-layer {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    background:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.90) 0%,
+      rgba(0, 0, 0, 0.60) 60%,
+      rgba(0, 0, 0, 0.30) 80%,
+      transparent 100%
+    ),
+    linear-gradient(rgba(0, 0, 0, 0.20));
+}

@@ -2,25 +2,10 @@
     import testBackground from '$lib/assets/test_background.webp';
     import HeroContent from './HeroContent.svelte';
     import '../../effects/heroBackground.css';
+    import '../../layout/baseFrame.css';
 </script>
 
 <style>
-    .frame {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    .frame-bg {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: 0;
-    }
-
     /* 콘텐츠 위치 Frame에서 책임 */
     .frame-content {
     position: relative;
@@ -53,4 +38,3 @@
         <HeroContent />
     </div>
 </section>
-

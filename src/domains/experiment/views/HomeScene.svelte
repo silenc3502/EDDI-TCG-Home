@@ -1,8 +1,9 @@
 <script lang="ts">
     import HeroFrame from './frames/hero/HeroFrame.svelte';
     import IntroFrame from './frames/intro/IntroFrame.svelte';
+    import RacesFrame from './frames/races/RacesFrame.svelte';
 
-    const frames = [HeroFrame, IntroFrame];
+    const frames = [HeroFrame, IntroFrame, RacesFrame];
 </script>
 
 <style>

@@ -1,7 +1,15 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import HeroFrame from './frames/hero/HeroFrame.svelte';
+    import IntroFrame from './frames/intro/IntroFrame.svelte';
+    import { useHome } from '../hooks/hooks.ts';
 
-    const frames = [HeroFrame];
+    const home = useHome();
+    const state = home.state;
+
+    onMount(() => {
+        home.initHome();
+    });
 </script>
 
 <style>
@@ -15,7 +23,9 @@
 </style>
 
 <div class="scene">
-    {#each frames as Frame}
-        <Frame />
-    {/each}
+    <HeroFrame
+        hero={$state.model.hero}
+        homeStatus={$state.status}
+        onPrimaryAction={home.onHeroPrimaryAction}
+    />
 </div>

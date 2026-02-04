@@ -1,4 +1,4 @@
-.hero-effect-layer {
+.hero-effect-layer[data-tone="dark-fantasy"] {
     pointer-events: none;
     position: absolute;
     inset: 0;

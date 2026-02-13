@@ -14,7 +14,8 @@ export interface HomeModel {
     };
 
     intro: {
-        headline: string;
-        description: string;
+        headline: string[];
+        description: string[];
+        primaryAction: string;
     };
 }

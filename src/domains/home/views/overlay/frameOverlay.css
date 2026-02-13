@@ -1,0 +1,24 @@
+.frame-float-image {
+    position: absolute;
+
+    top: var(--float-top, auto);
+    right: var(--float-right, auto);
+    bottom: var(--float-bottom, auto);
+    left: var(--float-left, auto);
+
+    width: var(--float-width, auto);
+    height: var(--float-height, auto);
+
+    z-index: var(--float-z, 2);
+    pointer-events: none;
+
+    object-fit: contain;
+}
+
+/* 이미지를 배경처럼 사용하고 싶을 경우*/
+.frame-float-image.is-bg-like {
+    height: 100%;
+    right: 0;
+    top: 0;
+    object-fit: cover;
+}

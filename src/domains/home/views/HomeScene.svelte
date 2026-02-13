@@ -25,7 +25,11 @@
 <div class="scene">
     <HeroFrame
         hero={$state.model.hero}
-        homeStatus={$state.status}
         onPrimaryAction={home.onHeroPrimaryAction}
+    />
+
+    <IntroFrame
+        intro={$state.model.intro}
+        onPrimaryAction={home.onIntroPrimaryAction}
     />
 </div>

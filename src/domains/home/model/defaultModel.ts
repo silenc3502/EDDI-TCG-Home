@@ -9,11 +9,11 @@ export const DEFAULT_HOME_MODEL: HomeModel = {
             '당신만의 진영으로 전쟁에서 승리하세요.',
         ],
         background: {
-            tone: 'dark-fantasy',
+            tone: 'dark-fantasy', // 배경효과 변경 가능성 있음
         },
         primaryAction: {
             label: '지금 플레이하기',
-            type: 'ENTER_GAME',
+            type: 'ENTER_GAME', // To-do: 로그인 여부에 따라서 타입이 달라짐
         },
     },
     intro: {

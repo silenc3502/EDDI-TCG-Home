@@ -1,5 +1,9 @@
 import type { HomeModel } from './model';
 
+import testHumanImage from '$lib/assets/test_human_image.webp';
+import testUndeadImage from '$lib/assets/test_undead_image.webp';
+import testTrentImage from '$lib/assets/test_trent_image.webp';
+
 export const DEFAULT_HOME_MODEL: HomeModel = {
     hero: {
         title: 'EDDI TCG',
@@ -36,5 +40,22 @@ export const DEFAULT_HOME_MODEL: HomeModel = {
             ]
         ],
         primaryAction: '세계관 더 알아보기',
+    },
+    race: {
+        headline: '종족 미리보기',
+        buttons: [
+            {
+                id: 'undead',
+                image: testUndeadImage
+            },
+            {
+                id: 'trent',
+                image: testTrentImage
+            },
+            {
+                id: 'human',
+                image: testHumanImage
+            },
+        ],
     },
 };

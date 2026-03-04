@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type { HomeState } from './state';
 import { DEFAULT_HOME_MODEL } from '../model/defaultModel';
+import type { HeroCtaType } from '../model/heroCtaType';
 
 export function useHome() {
     const state = writable<HomeState>({
@@ -20,6 +21,12 @@ export function useHome() {
         }));
     }
 
+    function resolveHeroCtaType(isLoggedIn: boolean): HeroCtaType {
+        return isLoggedIn
+            ? 'ENTER_GAME'
+            : 'OPEN_LOGIN';
+    }
+
     // Todo: HomeStatus와 로그인 상태에 따라 구분해야 함
     function onHeroPrimaryAction() {
         alert('현재 준비중인 페이지입니다.');
@@ -29,10 +36,15 @@ export function useHome() {
         alert('현재 준비중인 페이지입니다.');
     }
 
+    function onRacePrimaryAction(id: string) {
+        alert(`현재 준비중인 페이지입니다. ${id} 버튼 클릭`);
+    }
+
     return {
         state,
         initHome,
         onHeroPrimaryAction,
         onIntroPrimaryAction,
+        onRacePrimaryAction,
     };
 }

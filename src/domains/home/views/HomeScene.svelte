@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import HeroFrame from './frames/hero/HeroFrame.svelte';
     import IntroFrame from './frames/intro/IntroFrame.svelte';
+    import RaceFrame from './frames/race/RaceFrame.svelte';
     import { useHome } from '../hooks/hooks.ts';
 
     const home = useHome();
@@ -32,4 +33,10 @@
         intro={$state.model.intro}
         onPrimaryAction={home.onIntroPrimaryAction}
     />
+
+    <RaceFrame
+        race={$state.model.race}
+        onPrimaryAction={home.onRacePrimaryAction}
+    />
+
 </div>

@@ -21,4 +21,12 @@ export interface HomeModel {
         description: string[];
         primaryAction: string;
     };
+
+    race: {
+        headline: string;
+        buttons: {
+            id: string;
+            image: string;
+        }[];
+    };
 }
